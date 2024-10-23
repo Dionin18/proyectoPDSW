@@ -1,34 +1,35 @@
 using UnityEngine;
 
-public class MovementP : MonoBehaviour
+public class Player : MonoBehaviour, IDataPersistence
 {
-    public float velocidad = 5.0f;
+    public float speed;
+    public Rigidbody rb;
+    public Vector3 playerInput;
 
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
     void Update()
     {
-        Vector3 movimiento = Vector3.zero;
+        // Captura la entrada en los ejes horizontal y vertical
+        playerInput.x = Input.GetAxis("Horizontal");
+        playerInput.z = Input.GetAxis("Vertical");
 
-        // Mover hacia adelante y atrás
-        if (Input.GetKey(KeyCode.W))
-        {
-            movimiento += Vector3.forward;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            movimiento += Vector3.back;
-        }
+        // Aplica la fuerza al Rigidbody2D
+        rb.AddForce(playerInput * speed);
+    }
 
-        // Mover hacia la izquierda y la derecha
-        if (Input.GetKey(KeyCode.A))
-        {
-            movimiento += Vector3.left;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            movimiento += Vector3.right;
-        }
 
-        // Aplicar el movimiento al personaje
-        transform.Translate(movimiento * velocidad * Time.deltaTime);
+    void IDataPersistence.LoadData(GameData data)
+    {
+        this.transform.position = data.playerPosition;
+    }
+
+    void IDataPersistence.SaveData(ref GameData data)
+    {
+        data.playerPosition = this.transform.position;
     }
 }
