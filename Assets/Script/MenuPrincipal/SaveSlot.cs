@@ -35,6 +35,7 @@ public class SaveSlot : MonoBehaviour
         }
         else
         {
+            noDataContent.SetActive(false);
             hasDataContent.SetActive(true);
         }
     }
