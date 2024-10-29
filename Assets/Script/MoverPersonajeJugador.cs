@@ -1,14 +1,15 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDataPersistence
 {
     public float speed;
     public Rigidbody rb;
     public Vector3 playerInput;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame
@@ -20,9 +21,25 @@ public class Player : MonoBehaviour, IDataPersistence
 
         // Aplica la fuerza al Rigidbody2D
         rb.AddForce(playerInput * speed);
+
+        Salir();
     }
 
-
+    public void Salir(){
+        if (Input.GetKey("p") == false)
+        {
+            Debug.Log("p");
+            try
+            {
+                Application.Quit();
+            }
+            catch { }
+        }
+        else
+        {
+            SceneManager.LoadScene("Tutorial");
+        }
+    }
     void IDataPersistence.LoadData(GameData data)
     {
         this.transform.position = data.playerPosition;
