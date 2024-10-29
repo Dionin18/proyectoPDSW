@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,13 +29,9 @@ public class SaveSlotsMenu : MonoBehaviour
 
     public void OnSaveSlotClicked(SaveSlot saveSlot)
     {
-        Debug.Log("a");
         DataPersistenceManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
-        Debug.Log("b");
         DataPersistenceManager.instance.NewGame();
-        Debug.Log("c");
         SceneManager.LoadSceneAsync("Prototype3");
-        Debug.Log("d");
     }
 
     public void OnBackClicked()
@@ -67,5 +64,10 @@ public class SaveSlotsMenu : MonoBehaviour
             saveSlot.SetInteractable(false);
         }
         backButton.interactable = false;
+    }
+
+    internal void ActivateMenu(bool v)
+    {
+        throw new NotImplementedException();
     }
 }

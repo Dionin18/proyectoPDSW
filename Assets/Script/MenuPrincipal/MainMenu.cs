@@ -18,8 +18,15 @@ public class MainMenu : MonoBehaviour
         
     }
 
+    public void OnLoadGameClicked()
+    {
+        saveSlotsMenu.ActivateMenu(true);
+        this.DeactivateMenu();
+    }
+
     public void OnContinueGameClicked()
     {
+        Debug.Log("a");
         SceneManager.LoadSceneAsync("Prototype3");
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -71,8 +72,17 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void LoadGame()
     {
-        this.gameData = dataHandler.Load(selectedProfileId);
+        try
+        {
+            this.gameData = dataHandler.Load(selectedProfileId);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al cargar los datos: " + e.Message);
+        }
 
+        this.gameData = dataHandler.Load(selectedProfileId);
+        Debug.Log(dataHandler.Load(selectedProfileId));
         if (this.gameData == null)
         {
             Debug.Log("No se han encontrado datos, iniciando por defecto");
