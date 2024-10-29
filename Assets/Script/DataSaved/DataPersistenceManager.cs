@@ -46,32 +46,54 @@ public class DataPersistenceManager : MonoBehaviour
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-        LoadGame();
+
+        // Asegurarse de tener un ID de perfil seleccionado antes de cargar
+        if (string.IsNullOrEmpty(selectedProfileId))
+        {
+            Debug.LogWarning("No hay un ID de perfil seleccionado. Creando uno nuevo por defecto.");
+            selectedProfileId = "defaultProfile";
+            NewGame();
+        }
+        else
+        {
+            LoadGame();
+        }
     }
 
-    public void OnSceneUnloaded(Scene scene)
+    private void OnSceneUnloaded(Scene scene)
     {
         SaveGame();
     }
 
     public void ChangeSelectedProfileId(string newProfileId)
     {
+        if (string.IsNullOrEmpty(newProfileId))
+        {
+            Debug.LogError("El nuevo ID del perfil no puede estar vacío o ser nulo.");
+            return;
+        }
         this.selectedProfileId = newProfileId;
-
         LoadGame();
     }
-        
 
     public void NewGame()
     {
         this.gameData = new GameData();
+        Debug.Log("Nueva partida creada.");
+        SaveGame(); // Guardar datos inmediatamente después de crear un nuevo juego
     }
 
     public void LoadGame()
     {
+        if (string.IsNullOrEmpty(selectedProfileId))
+        {
+            Debug.LogError("El ID del perfil seleccionado está vacío o es nulo. No se pueden cargar los datos.");
+            return;
+        }
+
         try
         {
             this.gameData = dataHandler.Load(selectedProfileId);
@@ -79,29 +101,62 @@ public class DataPersistenceManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError("Error al cargar los datos: " + e.Message);
-        }
-
-        this.gameData = dataHandler.Load(selectedProfileId);
-        Debug.Log(dataHandler.Load(selectedProfileId));
-        if (this.gameData == null)
-        {
-            Debug.Log("No se han encontrado datos, iniciando por defecto");
             return;
         }
-        foreach(IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+
+        if (this.gameData == null)
         {
+            Debug.Log("No se han encontrado datos guardados, creando una nueva partida...");
+            this.gameData = new GameData();
+            SaveGame(); // Guardar datos predeterminados
+        }
+        else
+        {
+            Debug.Log("Datos cargados correctamente.");
+        }
+
+        if (dataPersistenceObjects == null || dataPersistenceObjects.Count == 0)
+        {
+            Debug.LogWarning("No se encontraron objetos de persistencia de datos.");
+            return;
+        }
+
+        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        {
+            if (dataPersistenceObj == null)
+            {
+                Debug.LogWarning("Se encontró un objeto nulo en dataPersistenceObjects.");
+                continue;
+            }
             dataPersistenceObj.LoadData(gameData);
         }
     }
 
     public void SaveGame()
     {
-        foreach(IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        if (gameData == null)
         {
-            dataPersistenceObj.SaveData(ref gameData); 
+            Debug.LogWarning("No hay datos de juego para guardar.");
+            return;
         }
 
-        dataHandler.Save(gameData, selectedProfileId);
+        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        {
+            if (dataPersistenceObj != null)
+            {
+                dataPersistenceObj.SaveData(ref gameData);
+            }
+        }
+
+        try
+        {
+            dataHandler.Save(gameData, selectedProfileId);
+            Debug.Log("Datos guardados correctamente.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al guardar los datos: " + e.Message);
+        }
     }
 
     private void OnApplicationQuit()
@@ -112,7 +167,6 @@ public class DataPersistenceManager : MonoBehaviour
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
         IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
-
         return new List<IDataPersistence>(dataPersistenceObjects);
     }
 
@@ -123,6 +177,14 @@ public class DataPersistenceManager : MonoBehaviour
 
     public Dictionary<string, GameData> GetAllProfilesGameData()
     {
-        return dataHandler.LoadAllProfiles();
+        try
+        {
+            return dataHandler.LoadAllProfiles();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al cargar todos los perfiles de datos: " + e.Message);
+            return new Dictionary<string, GameData>();
+        }
     }
 }
