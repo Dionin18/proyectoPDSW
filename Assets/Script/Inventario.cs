@@ -64,7 +64,7 @@ public class Inventario : MonoBehaviour
 
         inv.SetActive(Activar_inv);
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             Activar_inv = !Activar_inv;
         }
