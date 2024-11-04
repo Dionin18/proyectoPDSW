@@ -69,4 +69,18 @@ public class Inventario : MonoBehaviour
             Activar_inv = !Activar_inv;
         }
     }
+
+    public void AgregarAlInventario(GameObject item)
+    {
+        for (int i = 0; i < Bag.Count; i++)
+        {
+            Image bagImage = Bag[i].GetComponent<Image>();
+            if (bagImage != null && !bagImage.enabled)
+            {
+                bagImage.enabled = true;
+                bagImage.sprite = item.GetComponent<SpriteRenderer>().sprite;
+                break;
+            }
+        }
+    }
 }

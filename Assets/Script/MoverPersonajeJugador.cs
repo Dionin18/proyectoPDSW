@@ -3,9 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDataPersistence
 {
-    public CanvasManager _cManager;
-    string text1 = "Tocaste al bistec.";
-
+    public int numCarrotSeed = 0;
     public float speed;
     public Rigidbody rb;
     public Vector3 playerInput;
@@ -31,7 +29,6 @@ public class Player : MonoBehaviour, IDataPersistence
     public void Salir(){
         if (Input.GetKey("p") == false)
         {
-            Debug.Log("p");
             try
             {
                 Application.Quit();
@@ -53,37 +50,4 @@ public class Player : MonoBehaviour, IDataPersistence
         data.playerPosition = this.transform.position;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Food_Steak_01")
-        {
-            _cManager.pnlTextE.SetActive(true);
-
-            if (Input.GetKeyDown("e"))
-            {
-                if (_cManager.pnlTextBase.activeSelf == true)
-                {
-                    activarYPasarTxt(text1, false);
-                }
-                else if (_cManager.pnlTextBase.activeSelf == false)
-                {
-                    activarYPasarTxt(text1, true);
-                }
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.tag == "Food_Steak_01")
-        {
-            _cManager.pnlTextBase.SetActive(false);
-        }
-    }
-
-    public void activarYPasarTxt(string text, bool b)
-    {
-        _cManager.pnlTextBase.SetActive(b);
-        _cManager.textPanel.text = text;
-    }
 }
