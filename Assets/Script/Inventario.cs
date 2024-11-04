@@ -31,27 +31,28 @@ public class Inventario : MonoBehaviour
 
     public void Navegar()
     {
-        if (Input.GetKeyDown(KeyCode.D) && ID < Bag.Count - 1)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && ID < Bag.Count - 1)
         {
             ID++;
         }
-        if (Input.GetKeyDown(KeyCode.A) && ID > 0)
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && ID > 0)
         {
             ID--;
         }
-        if (Input.GetKeyDown(KeyCode.W) && ID > 3) // Cambié 'w' a 'W'
+        if (Input.GetKeyDown(KeyCode.UpArrow) && ID > 3) 
         {
-            ID -= 5;
+            ID -= 4;
         }
-        if (Input.GetKeyDown(KeyCode.S) && ID < Bag.Count - 4) // Asegurarse de no salir del índice
+        if (Input.GetKeyDown(KeyCode.DownArrow) && ID < Bag.Count - 4) 
         {
-            ID += 9;
+            ID += 4;
         }
 
         if (ID >= 0 && ID < Bag.Count)
         {
             Selector.transform.position = Bag[ID].transform.position;
         }
+
     }
 
     void Start()
