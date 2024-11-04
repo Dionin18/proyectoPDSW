@@ -41,11 +41,11 @@ public class Inventario : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.W) && ID > 3) // Cambié 'w' a 'W'
         {
-            ID -= 4;
+            ID -= 5;
         }
         if (Input.GetKeyDown(KeyCode.S) && ID < Bag.Count - 4) // Asegurarse de no salir del índice
         {
-            ID += 4;
+            ID += 9;
         }
 
         if (ID >= 0 && ID < Bag.Count)
