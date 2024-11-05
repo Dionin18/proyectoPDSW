@@ -11,7 +11,7 @@ public class VentanaEmergente : MonoBehaviour
 
     public void OnclickAcepttButton()
     {
-        VentanaFlotante.active = false;
+        VentanaFlotante.SetActive(false);
 
     }
 }

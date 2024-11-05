@@ -1,17 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Inventario : MonoBehaviour
 {
     public List<GameObject> Bag = new List<GameObject>();
+    public List<GameObject> BagImage = new List<GameObject>();
     public GameObject inv;
     public bool Activar_inv;
-
+    public static Inventario instance;
     public GameObject Selector;
+    public Sprite steak;
+
     public int ID;
 
+    void Start()
+    {
+        Singleton();
+
+
+    }
+
+    public void Singleton()
+    {
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.CompareTag("Item"))
@@ -29,9 +52,26 @@ public class Inventario : MonoBehaviour
         }
     }
 
+    public void ShowImagesInInventory()
+    {
+        for (int i = 0; i < BagImage.Count; i++)
+        {
+            if (Bag[i] != null)
+            {
+                BagImage[i].GetComponent<Image>().sprite = steak;
+                
+            }
+            else
+            {
+                BagImage[i].GetComponent<Image>().sprite = null;
+            }
+        }
+
+    }
+
     public void Navegar()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow) && ID < Bag.Count - 1)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && ID < BagImage.Count - 1)
         {
             ID++;
         }
@@ -39,24 +79,19 @@ public class Inventario : MonoBehaviour
         {
             ID--;
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow) && ID > 3) 
+        if (Input.GetKeyDown(KeyCode.UpArrow) && ID > 3)
         {
             ID -= 4;
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && ID < Bag.Count - 4) 
+        if (Input.GetKeyDown(KeyCode.DownArrow) && ID < BagImage.Count - 4)
         {
             ID += 4;
         }
 
-        if (ID >= 0 && ID < Bag.Count)
+        if (ID >= 0 && ID < BagImage.Count)
         {
-            Selector.transform.position = Bag[ID].transform.position;
+            Selector.transform.position = BagImage[ID].transform.position;
         }
-
-    }
-
-    void Start()
-    {
     }
 
     void Update()
@@ -69,10 +104,15 @@ public class Inventario : MonoBehaviour
         {
             Activar_inv = !Activar_inv;
         }
+        ShowImagesInInventory();
     }
+
 
     public void AgregarAlInventario(GameObject item)
     {
+
+        Bag.Add(item);
+        /*
         for (int i = 0; i < Bag.Count; i++)
         {
             Image bagImage = Bag[i].GetComponent<Image>();
@@ -83,5 +123,6 @@ public class Inventario : MonoBehaviour
                 break;
             }
         }
+        */
     }
 }
