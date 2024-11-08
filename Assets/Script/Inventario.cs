@@ -56,10 +56,9 @@ public class Inventario : MonoBehaviour
     {
         for (int i = 0; i < BagImage.Count; i++)
         {
-            if (Bag[i] != null)
+            if (i < Bag.Count && Bag[i] != null)
             {
                 BagImage[i].GetComponent<Image>().sprite = steak;
-                
             }
             else
             {
