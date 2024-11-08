@@ -12,15 +12,12 @@ public class Inventario : MonoBehaviour
     public bool Activar_inv;
     public static Inventario instance;
     public GameObject Selector;
-    public Sprite steak;
 
     public int ID;
 
     void Start()
     {
         Singleton();
-
-
     }
 
     public void Singleton()
@@ -35,20 +32,12 @@ public class Inventario : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
+
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.CompareTag("Item"))
         {
-            for (int i = 0; i < Bag.Count; i++)
-            {
-                Image bagImage = Bag[i].GetComponent<Image>();
-                if (bagImage != null && !bagImage.enabled)
-                {
-                    bagImage.enabled = true;
-                    bagImage.sprite = coll.GetComponent<SpriteRenderer>().sprite;
-                    break;
-                }
-            }
+            AgregarAlInventario(coll.gameObject);
         }
     }
 
@@ -58,14 +47,16 @@ public class Inventario : MonoBehaviour
         {
             if (i < Bag.Count && Bag[i] != null)
             {
-                BagImage[i].GetComponent<Image>().sprite = steak;
+                Sprite itemSprite = Bag[i].GetComponent<SpriteRenderer>().sprite;
+                BagImage[i].GetComponent<Image>().sprite = itemSprite;
+                BagImage[i].GetComponent<Image>().enabled = true;
             }
             else
             {
                 BagImage[i].GetComponent<Image>().sprite = null;
+                BagImage[i].GetComponent<Image>().enabled = false;
             }
         }
-
     }
 
     public void Navegar()
@@ -106,12 +97,10 @@ public class Inventario : MonoBehaviour
         ShowImagesInInventory();
     }
 
-
     public void AgregarAlInventario(GameObject item)
     {
-
         Bag.Add(item);
-      
+
         for (int i = 0; i < Bag.Count; i++)
         {
             Image bagImage = Bag[i].GetComponent<Image>();
@@ -122,6 +111,30 @@ public class Inventario : MonoBehaviour
                 break;
             }
         }
+    }
 
+    // Función para buscar un sprite por nombre y mostrarlo en el inventario
+    public void MostrarItemPorNombre(string nombreItem)
+    {
+        foreach (var item in Bag)
+        {
+            SpriteRenderer spriteRenderer = item.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null && spriteRenderer.sprite.name == nombreItem)
+            {
+                for (int i = 0; i < BagImage.Count; i++)
+                {
+                    if (BagImage[i].GetComponent<Image>().sprite == null)
+                    {
+                        BagImage[i].GetComponent<Image>().sprite = spriteRenderer.sprite;
+                        BagImage[i].GetComponent<Image>().enabled = true;
+                        Debug.Log($"Mostrando el objeto: {nombreItem}");
+                        return;
+                    }
+                }
+            }
+        }
+
+        Debug.LogWarning($"El objeto con el nombre '{nombreItem}' no se encuentra en el inventario.");
     }
 }
+
