@@ -112,7 +112,7 @@ public class Inventario : MonoBehaviour
     {
 
         Bag.Add(item);
-        /*
+      
         for (int i = 0; i < Bag.Count; i++)
         {
             Image bagImage = Bag[i].GetComponent<Image>();
@@ -123,6 +123,6 @@ public class Inventario : MonoBehaviour
                 break;
             }
         }
-        */
+
     }
 }
