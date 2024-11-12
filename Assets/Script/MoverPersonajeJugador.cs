@@ -1,24 +1,33 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.iOS;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDataPersistence
 {
+    public Rigidbody rb;
+    public Animator animator;
     public int numCarrotSeed = 0;
     public float speed;
-    public Rigidbody rb;
     public Vector3 playerInput;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
+        animator = GetComponent<Animator>();
+        animator.Play("Idle");
     }
 
     // Update is called once per frame
     void Update()
     {
         // Captura la entrada en los ejes horizontal y vertical
-        
+        if (!Inventario.instance.Activar_inv)
+        {
+            playerInput.x = Input.GetAxis("Horizontal");
+            playerInput.z = Input.GetAxis("Vertical");
+        }
+        /*
         if (Input.GetKey(KeyCode.W))
         {
             playerInput.z = Input.GetAxis("Vertical");
@@ -44,12 +53,23 @@ public class Player : MonoBehaviour, IDataPersistence
         if (Input.GetKey(KeyCode.A))
         {
             playerInput.x = Input.GetAxis("Horizontal");
-        }
+        }*/
 
 
         // Aplica la fuerza al Rigidbody2D
         rb.AddForce(playerInput * speed);
+        Quaternion lookDirection = Quaternion.LookRotation(playerInput.normalized);
 
+        if (playerInput != Vector3.zero )
+        {
+            animator.SetFloat("Speed_f",0.3f);
+            rb.rotation = lookDirection;
+        }
+        else if(playerInput==Vector3.zero)
+        {
+            animator.SetFloat("Speed_f", 0f);
+            
+        }
         Salir();
     }
 
