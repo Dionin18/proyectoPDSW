@@ -573,9 +573,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237701abde547b54f9ad7294c465246d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 2325916122463908477}
+  animator: {fileID: 0}
   numCarrotSeed: 0
   speed: 5
-  rb: {fileID: 2325916122463908477}
   playerInput: {x: 0, y: 0, z: 0}
 --- !u!65 &6979818837503592828
 BoxCollider:
@@ -584,7 +585,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4184037736653213591}
-  m_Material: {fileID: 13400000, guid: a5131c250f2781a4da0aa1e946ace107, type: 2}
+  m_Material: {fileID: 13400000, guid: edfb23694748f714c9acb997c734b2f1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
