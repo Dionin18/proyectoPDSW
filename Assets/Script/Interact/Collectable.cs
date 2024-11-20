@@ -10,6 +10,8 @@ public class Collectable : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TextoRecoger; // Referencia al texto de notificación en el Canvas
     [SerializeField] private GameObject panelRecoger; // Panel que contiene el texto de notificación
     [SerializeField] private GameObject objectToDeactivate;
+    [SerializeField] private float cantidadPuntos;
+    [SerializeField] private Puntaje puntaje;
 
 
 
@@ -19,6 +21,7 @@ public class Collectable : MonoBehaviour
 
         if (player)
         {
+            puntaje.SumarPuntos(cantidadPuntos);
             if(Inventario.instance.Bag.Count <= 12)
             {
                 Inventario.instance.AgregarAlInventario(objectToDeactivate);
