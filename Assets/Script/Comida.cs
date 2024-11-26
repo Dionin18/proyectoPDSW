@@ -49,6 +49,8 @@ public class Comida : MonoBehaviour
 
     IEnumerator DelayAction(float delayTime)
     {
+        PlayAnimation("Idle"); // Volver a Idle en el contexto de Comida.
+
         yield return new WaitForSeconds(delayTime);
 
         animalRigidbody.constraints = RigidbodyConstraints.None;
@@ -58,7 +60,6 @@ public class Comida : MonoBehaviour
             animalBehavior.ResumeIdleAnimation(); // Regresar a la animación de Idle en AnimalBehavior.
         }
 
-        PlayAnimation("Idle"); // Volver a Idle en el contexto de Comida.
     }
 
     private void PlayAnimation(string animationName)
