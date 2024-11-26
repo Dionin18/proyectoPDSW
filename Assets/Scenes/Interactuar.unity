@@ -379,7 +379,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 33127473}
-  delay: 3
+  delay: 5
+  colectar1: {fileID: 8300000, guid: 1c602266399dfec419771583bca6020c, type: 3}
+  colectar2: {fileID: 8300000, guid: 64d2b559c48d8084c9511564578382b7, type: 3}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,6 +1483,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 590422387}
   delay: 5
+  colectar1: {fileID: 8300000, guid: 1c602266399dfec419771583bca6020c, type: 3}
+  colectar2: {fileID: 8300000, guid: 64d2b559c48d8084c9511564578382b7, type: 3}
 --- !u!82 &590422387
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1493,13 +1497,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1c602266399dfec419771583bca6020c, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.7
+  m_Volume: 0.76
   m_Pitch: 1.5
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 125
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1834,7 +1838,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 652806071}
-  delay: 4
+  delay: 5
+  colectar1: {fileID: 8300000, guid: 01ed4b694ea74c24ba5d4f610782cb59, type: 3}
+  colectar2: {fileID: 8300000, guid: 68d5f9d8bd55aa14b8b3e0570f7174d9, type: 3}
 --- !u!82 &652806071
 AudioSource:
   m_ObjectHideFlags: 0
