@@ -7,6 +7,10 @@ public class Comida : MonoBehaviour
     public Rigidbody animalRigidbody;
     public Animator animator;
 
+    public GameObject BarraComida; // El objeto que deseas activar
+    public float intervalo = 5f; // Intervalo de tiempo en segundos
+    public int valor = 0;
+
     [SerializeField] private GameObject objectToModify;
 
     // Referencia al script AnimalBehavior
@@ -18,6 +22,12 @@ public class Comida : MonoBehaviour
         if (objectToModify != null)
         {
             animalBehavior = objectToModify.GetComponent<AnimalBehavior>();
+        }
+
+        if (valor == 0)
+        {
+            StartCoroutine(ActivarObjetoPeriodicamente());
+            valor = 1;
         }
     }
 
@@ -35,7 +45,8 @@ public class Comida : MonoBehaviour
             {
                 animalBehavior.StopAllAnimations(); // Detener todas las animaciones en AnimalBehavior.
             }
-
+            valor = 1;
+            BarraComida.gameObject.SetActive(false);
             PlayAnimation("Eat"); // Iniciar la animación de comer.
 
             DoDelayAction(10);
@@ -70,5 +81,13 @@ public class Comida : MonoBehaviour
         }
 
         animator.Play(animationName);
+    }
+    private IEnumerator ActivarObjetoPeriodicamente()
+    {
+        while (valor == 0) 
+        {
+            yield return new WaitForSeconds(intervalo); // Espera el tiempo definido
+            BarraComida.SetActive(true); // Activa el objeto
+        }
     }
 }
