@@ -84,7 +84,6 @@ public class Player : MonoBehaviour, IDataPersistence
         }
         else
         {
-            SceneManager.LoadScene("Tutorial");
         }
     }
     void IDataPersistence.LoadData(GameData data)

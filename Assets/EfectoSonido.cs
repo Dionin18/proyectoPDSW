@@ -3,20 +3,35 @@ using UnityEngine;
 
 public class EfectoSonido : MonoBehaviour
 {
-    public AudioSource audioSource; // Arrastra aquí tu AudioSource desde el inspector
-    public float delay = 2f;        // Tiempo en segundos entre cada repetición
+    public AudioSource audioSource;
+    public float delay = 8f;
+
+    [SerializeField] private AudioClip colectar1;
+    [SerializeField] private AudioClip colectar2;
 
     void Start()
     {
-        // Inicia la corrutina para reproducir el sonido con delay
-        StartCoroutine(PlaySoundWithDelay());
+        StartCoroutine(IniciarSonidoConDelay()); // Iniciar la corrutina para repetir el sonido cada cierto intervalo
     }
 
-    IEnumerator PlaySoundWithDelay()
+    private void OnTriggerEnter(Collider other)
     {
-        while (true) // Bucle infinito para repetir el sonido
+        if (other.CompareTag("Player"))
         {
-            audioSource.Play(); // Reproduce el sonido
+            audioSource.Stop(); // Detener el sonido en loop antes de reproducir el de recolección
+            audioSource.PlayOneShot(colectar2);
+        }
+    }
+
+    private IEnumerator IniciarSonidoConDelay()
+    {
+        while (true)
+        {
+            if (audioSource != null && colectar1 != null)
+            {
+                audioSource.clip = colectar1;
+                audioSource.Play(); // Reproduce el sonido
+            }
             yield return new WaitForSeconds(delay); // Espera el tiempo especificado antes de repetir
         }
     }
