@@ -10,13 +10,14 @@ public class NotiRecoger : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TextoRecoger; // Referencia al texto de notificación en el Canvas
     [SerializeField] private GameObject panelRecoger; // Panel que contiene el texto de notificación
 
+
+
     private void OnTriggerEnter(Collider collision)
     {
         Player player = collision.GetComponent<Player>();
 
         if (collision.CompareTag("Item"))
         {
-            Debug.Log(collision.gameObject.name);
             string itemName = collision.gameObject.name; // Obtiene el nombre del objeto con el que se colisionó
             ShowNotification(itemName); // Muestra una notificación con el nombre del objeto
 

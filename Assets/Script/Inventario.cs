@@ -12,13 +12,25 @@ public class Inventario : MonoBehaviour
     public bool Activar_inv;
     public static Inventario instance;
     public GameObject Selector;
+    public Animator animator;
+
+
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject WinSprite;
+    [SerializeField] private GameObject firework1;
+    [SerializeField] private GameObject firework2;
+    [SerializeField] private int count;
+    [SerializeField] private int CantidadParaGanar;
+
 
     public int ID;
 
     void Start()
     {
         Singleton();
+        animator = player.GetComponent<Animator>();
     }
+
 
     public void Singleton()
     {
@@ -33,7 +45,7 @@ public class Inventario : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void OnTriggerEnter2D(Collider2D coll)
+    void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Item"))
         {
@@ -95,12 +107,20 @@ public class Inventario : MonoBehaviour
             Activar_inv = !Activar_inv;
         }
         ShowImagesInInventory();
+
+        if (count == CantidadParaGanar)
+        {
+            firework1.SetActive(true);
+            firework2.SetActive(true);
+            WinSprite.SetActive(true);
+            animator.Play("GrenadeThrow");
+        }
     }
 
     public void AgregarAlInventario(GameObject item)
     {
         Bag.Add(item);
-
+        count++;
         for (int i = 0; i < Bag.Count; i++)
         {
             Image bagImage = Bag[i].GetComponent<Image>();
