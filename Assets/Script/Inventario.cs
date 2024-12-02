@@ -27,6 +27,7 @@ public class Inventario : MonoBehaviour
 
     void Start()
     {
+        count = 0;
         Singleton();
         animator = player.GetComponent<Animator>();
     }
