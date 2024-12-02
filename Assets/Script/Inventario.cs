@@ -29,22 +29,37 @@ public class Inventario : MonoBehaviour
     {
         count = 0;
         Singleton();
-        animator = player.GetComponent<Animator>();
+
+        if (Bag == null)
+        {
+            Bag = new List<GameObject>();
+            Debug.LogWarning("Bag estaba vacío, inicializado nuevamente.");
+        }
+
+        animator = player != null ? player.GetComponent<Animator>() : null;
+
+        if (firework1 == null)
+        {
+            firework1 = GameObject.Find("SF_Rainbow");
+        }
+
+        if (firework2 == null)
+        {
+            firework2 = GameObject.Find("SF_Rainbow_(1)");
+        }
     }
 
 
     public void Singleton()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            instance = this;
-        }
-        DontDestroyOnLoad(gameObject);
+        instance = this;
     }
+
 
     void OnTriggerEnter(Collider coll)
     {
@@ -111,15 +126,18 @@ public class Inventario : MonoBehaviour
 
         if (count == CantidadParaGanar)
         {
-            firework1.SetActive(true);
-            firework2.SetActive(true);
-            WinSprite.SetActive(true);
-            animator.Play("GrenadeThrow");
+            activar();
         }
     }
 
     public void AgregarAlInventario(GameObject item)
     {
+        if (Bag == null)
+        {
+            Debug.LogError("La variable 'Bag' no está asignada en el script Inventario.");
+            return;
+        }
+
         Bag.Add(item);
         count++;
         for (int i = 0; i < Bag.Count; i++)
@@ -156,6 +174,53 @@ public class Inventario : MonoBehaviour
         }
 
         Debug.LogWarning($"El objeto con el nombre '{nombreItem}' no se encuentra en el inventario.");
+    }
+    public void activar()
+    {
+        if (firework1 != null)
+        {
+            firework1.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("firework1 ha sido destruido o no está asignado.");
+        }
+
+        if (firework2 != null)
+        {
+            firework2.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("firework2 ha sido destruido o no está asignado.");
+        }
+
+        if (WinSprite != null)
+        {
+            WinSprite.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("WinSprite no está asignado.");
+        }
+
+        if (animator != null)
+        {
+            animator.Play("GrenadeThrow");
+        }
+        else
+        {
+            Debug.LogWarning("Animator no está asignado.");
+        }
+
+        if (animator != null)
+        {
+            animator.Play("GrenadeThrow");
+        }
+        else
+        {
+            Debug.LogWarning("Animator no está asignado o ha sido destruido.");
+        }
     }
 }
 
