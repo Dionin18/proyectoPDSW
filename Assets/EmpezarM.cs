@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CanvasStarttt : MonoBehaviour
+public class EmpezarM : MonoBehaviour
 {
+    // Start is called before the first frame update
     public void Jugar()
     {
-        SceneManager.LoadScene("NIVEL2");
+        SceneManager.LoadScene("Nivel_1M");
     }
 }

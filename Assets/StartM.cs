@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CanvasStarttt : MonoBehaviour
+public class StartM : MonoBehaviour
 {
     public void Jugar()
     {
-        SceneManager.LoadScene("NIVEL2");
+        SceneManager.LoadScene("NIVEL2M");
     }
 }
